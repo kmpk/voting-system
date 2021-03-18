@@ -1,5 +1,7 @@
 package com.github.kmpk.votingsystem.util;
 
+import com.github.kmpk.votingsystem.exception.EntityNotFoundException;
+import com.github.kmpk.votingsystem.exception.IllegalRequestDataException;
 import com.github.kmpk.votingsystem.to.BaseTo;
 
 public class ValidationUtil {
@@ -20,9 +22,9 @@ public class ValidationUtil {
         return object;
     }
 
-    public static void checkNotFound(boolean found, String arg) {
+    public static void checkNotFound(boolean found, String msg) {
         if (!found) {
-            throw new RuntimeException(arg);
+            throw new EntityNotFoundException(String.format("Entity with %s is not found", msg));
         }
     }
 
@@ -30,7 +32,18 @@ public class ValidationUtil {
         if (baseTo.isNew()) {
             baseTo.setId(id);
         } else if (baseTo.getId() != id) {
-            throw new RuntimeException(baseTo + " must be with id=" + id);
+            throw new IllegalRequestDataException(String.format("%s must be with id=%d", baseTo, id));
         }
+    }
+
+    //  http://stackoverflow.com/a/28565320/548473
+    public static Throwable getRootCause(Throwable t) {
+        Throwable result = t;
+        Throwable cause;
+
+        while (null != (cause = result.getCause()) && (result != cause)) {
+            result = cause;
+        }
+        return result;
     }
 }
