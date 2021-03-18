@@ -2,6 +2,8 @@ package com.github.kmpk.votingsystem;
 
 import com.github.kmpk.votingsystem.model.Role;
 import com.github.kmpk.votingsystem.model.User;
+import com.github.kmpk.votingsystem.web.TestUtil;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.time.Instant;
 import java.util.List;
@@ -30,5 +32,9 @@ public class UserTestData {
 
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("registered", "password").isEqualTo(expected);
+    }
+
+    public static ResultMatcher getUserMatcher(User expected) {
+        return result -> assertMatch(TestUtil.readFromJsonMvcResult(result, User.class), expected);
     }
 }
