@@ -1,8 +1,8 @@
 package com.github.kmpk.votingsystem.util;
 
+import com.github.kmpk.votingsystem.HasId;
 import com.github.kmpk.votingsystem.exception.EntityNotFoundException;
 import com.github.kmpk.votingsystem.exception.IllegalRequestDataException;
-import com.github.kmpk.votingsystem.to.BaseTo;
 
 public class ValidationUtil {
 
@@ -28,11 +28,11 @@ public class ValidationUtil {
         }
     }
 
-    public static void assureIdConsistent(BaseTo baseTo, int id) {
-        if (baseTo.isNew()) {
-            baseTo.setId(id);
-        } else if (baseTo.getId() != id) {
-            throw new IllegalRequestDataException(String.format("%s must be with id=%d", baseTo, id));
+    public static void assureIdConsistent(HasId entity, int id) {
+        if (entity.isNew()) {
+            entity.setId(id);
+        } else if (entity.getId() != id) {
+            throw new IllegalRequestDataException(String.format("%s must be with id=%d", entity, id));
         }
     }
 

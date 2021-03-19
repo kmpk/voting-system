@@ -1,6 +1,8 @@
 package com.github.kmpk.votingsystem.to;
 
-public abstract class BaseTo {
+import com.github.kmpk.votingsystem.HasId;
+
+public abstract class BaseTo implements HasId {
     protected Integer id;
 
     BaseTo() {
