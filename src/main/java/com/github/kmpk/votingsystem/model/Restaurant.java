@@ -1,9 +1,11 @@
 package com.github.kmpk.votingsystem.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 @Entity
 @Table(name = "restaurants", uniqueConstraints = @UniqueConstraint(columnNames = "address", name = "restaurants_address_idx"))
@@ -19,18 +21,13 @@ public class Restaurant extends AbstractNamedEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @OrderBy("date DESC")
-    private Set<Menu> menus;
-
     public Restaurant() {
     }
 
-    public Restaurant(Integer id, String name, String address, String description, Set<Menu> menus) {
+    public Restaurant(Integer id, String name, String address, String description) {
         super(id, name);
         this.address = address;
         this.description = description;
-        this.menus = menus;
     }
 
     public String getAddress() {
@@ -49,14 +46,6 @@ public class Restaurant extends AbstractNamedEntity {
         this.description = description;
     }
 
-    public Set<Menu> getMenus() {
-        return menus;
-    }
-
-    public void setMenus(Set<Menu> menus) {
-        this.menus = menus;
-    }
-
     @Override
     public String toString() {
         return "Restaurant{" +
@@ -64,7 +53,6 @@ public class Restaurant extends AbstractNamedEntity {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +
-                ", menus=" + menus +
                 '}';
     }
 }
