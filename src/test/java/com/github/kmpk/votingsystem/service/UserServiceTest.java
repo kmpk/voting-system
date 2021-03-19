@@ -2,6 +2,8 @@ package com.github.kmpk.votingsystem.service;
 
 import com.github.kmpk.votingsystem.model.Role;
 import com.github.kmpk.votingsystem.model.User;
+import com.github.kmpk.votingsystem.to.UserAdminTo;
+import com.github.kmpk.votingsystem.to.UserTo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +40,24 @@ class UserServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void update() {
+    void updateUser() {
         User updated = new User(USER);
         updated.setName("UpdatedName");
+        updated.setEmail("new@email.ru");
+        updated.setPassword("newPassword");
+        service.update(new UserTo(updated.getId(), updated.getName(), updated.getEmail(), updated.getPassword()));
+        assertMatch(service.get(USER_ID), updated);
+    }
+
+    @Test
+    void updateAdmin() {
+        User updated = new User(USER);
+        updated.setName("UpdatedName");
+        updated.setEmail("new@email.ru");
+        updated.setPassword("newPassword");
         updated.setEnabled(false);
         updated.setRoles(Set.of(Role.ROLE_USER, Role.ROLE_ADMIN));
-        service.update(new User(updated));
+        service.update(new UserAdminTo(updated.getId(), updated.getName(), updated.getEmail(), updated.getPassword(), updated.isEnabled(), updated.getRoles()));
         assertMatch(service.get(USER_ID), updated);
     }
 

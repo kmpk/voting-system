@@ -10,16 +10,16 @@ public class UserTo extends BaseTo implements Serializable {
 
     @NotBlank
     @Size(min = 2, max = 100)
-    private String name;
+    protected String name;
 
     @Email
     @NotBlank
     @Size(max = 100)
-    private String email;
+    protected String email;
 
     @Size(min = 5, max = 32)
     @NotBlank
-    private String password;
+    protected String password;
 
     public UserTo() {
     }

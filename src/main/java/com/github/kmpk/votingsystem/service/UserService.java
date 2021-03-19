@@ -1,6 +1,7 @@
 package com.github.kmpk.votingsystem.service;
 
 import com.github.kmpk.votingsystem.model.User;
+import com.github.kmpk.votingsystem.to.UserAdminTo;
 import com.github.kmpk.votingsystem.to.UserTo;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,10 +12,11 @@ public interface UserService {
 
     User get(int id);
 
-    void update(User user);
-
     @Transactional
     void update(UserTo userTo);
+
+    @Transactional
+    void update(UserAdminTo userTo);
 
     void delete(int id);
 

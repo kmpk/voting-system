@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.github.kmpk.votingsystem.model.AbstractBaseEntity.START_SEQ;
+import static com.github.kmpk.votingsystem.web.JsonUtil.readListFromJsonMvcResult;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTestData {
@@ -36,5 +37,9 @@ public class UserTestData {
 
     public static ResultMatcher getUserMatcher(User expected) {
         return result -> assertMatch(TestUtil.readFromJsonMvcResult(result, User.class), expected);
+    }
+
+    public static ResultMatcher getUserMatcher(User... expected) {
+        return result -> assertMatch(readListFromJsonMvcResult(result, User.class), List.of(expected));
     }
 }

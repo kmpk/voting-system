@@ -3,6 +3,7 @@ package com.github.kmpk.votingsystem.service;
 import com.github.kmpk.votingsystem.AuthorizedUser;
 import com.github.kmpk.votingsystem.model.User;
 import com.github.kmpk.votingsystem.repository.UserRepository;
+import com.github.kmpk.votingsystem.to.UserAdminTo;
 import com.github.kmpk.votingsystem.to.UserTo;
 import com.github.kmpk.votingsystem.util.ValidationUtil;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
+import java.util.HashSet;
 import java.util.List;
 
 import static com.github.kmpk.votingsystem.util.ValidationUtil.checkNotFoundWithId;
@@ -47,17 +49,22 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void update(User user) {
-        Assert.notNull(user, "user must not be null");
-        checkNotFoundWithId(repository.save(prepareToSave(user)), user.getId());
-    }
-
-    @Override
     public void update(UserTo userTo) {
         User user = get(userTo.getId());
         user.setName(userTo.getName());
         user.setEmail(userTo.getEmail().toLowerCase());
         user.setPassword(userTo.getPassword());
+        repository.save(prepareToSave(user));
+    }
+
+    @Override
+    public void update(UserAdminTo userTo) {
+        User user = get(userTo.getId());
+        user.setName(userTo.getName());
+        user.setEmail(userTo.getEmail().toLowerCase());
+        user.setPassword(userTo.getPassword());
+        user.setEnabled(userTo.isEnabled());
+        user.setRoles(new HashSet<>(userTo.getRoles()));
         repository.save(prepareToSave(user));
     }
 
