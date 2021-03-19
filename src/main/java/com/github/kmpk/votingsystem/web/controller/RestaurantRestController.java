@@ -26,7 +26,7 @@ public class RestaurantRestController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> getAll() {
-        logger.info("");
+        logger.info("get all restaurants");
         return repository.findAll();
     }
 
