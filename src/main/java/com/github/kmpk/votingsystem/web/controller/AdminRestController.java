@@ -26,29 +26,34 @@ public class AdminRestController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
+        logger.info("get all users");
         return service.getAll();
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@PathVariable("id") int id) {
+        logger.info("get user with id={}", id);
         return service.get(id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id) {
+        logger.info("delete user with id={}", id);
         service.delete(id);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@Validated @RequestBody UserAdminTo userTo, @PathVariable("id") int id) {
+        logger.info("update user with id={}", id);
         ValidationUtil.assureIdConsistent(userTo, id);
         service.update(userTo);
     }
 
     @GetMapping(value = "/by", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getByMail(@RequestParam("email") String email) {
+        logger.info("get user with email={}", email);
         return service.getByEmail(email);
     }
 }
