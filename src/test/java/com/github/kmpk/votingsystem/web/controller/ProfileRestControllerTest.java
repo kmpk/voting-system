@@ -26,20 +26,23 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(getUserMatcher(USER));
+                .andExpect(getUserMatcher(USER))
+                .andDo(print());
     }
 
     @Test
     void testGetUnAuth() throws Exception {
         mockMvc.perform(get(REST_URL))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
     }
 
     @Test
     void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL)
                 .with(userHttpBasic(USER)))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(print());
         assertMatch(userService.getAll(), ADMIN);
     }
 
@@ -49,8 +52,8 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
         ResultActions action = mockMvc.perform(post(REST_URL + "/register").contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(createdTo)))
-                .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andDo(print());
         User returned = readFromJsonResultActions(action, User.class);
 
         User created = new User(createdTo.getName(), createdTo.getEmail(), createdTo.getPassword());
@@ -67,8 +70,8 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER))
                 .content(JsonUtil.writeValue(updatedTo)))
-                .andDo(print())
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(print());
 
         User updated = new User(USER.getId(), updatedTo.getName(), updatedTo.getEmail(), updatedTo.getPassword(), USER.isEnabled(), USER.getRegistered(), USER.getRoles());
 
@@ -82,7 +85,6 @@ class ProfileRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(put(REST_URL).contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER))
                 .content(JsonUtil.writeValue(updatedTo)))
-                .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }

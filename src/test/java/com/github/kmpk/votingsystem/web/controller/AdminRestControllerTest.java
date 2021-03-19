@@ -25,7 +25,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(getUserMatcher(USER));
+                .andExpect(getUserMatcher(USER))
+                .andDo(print());
     }
 
     @Test
@@ -33,6 +34,8 @@ class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL + 1)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isNotFound())
+                .andExpect(hasInResponse("message"))
+                .andExpect(hasInResponse("details"))
                 .andDo(print());
     }
 
@@ -42,15 +45,16 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(getUserMatcher(ADMIN));
+                .andExpect(getUserMatcher(ADMIN))
+                .andDo(print());
     }
 
     @Test
     void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + USER_ID)
                 .with(userHttpBasic(ADMIN)))
-                .andDo(print())
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(print());
         assertMatch(userService.getAll(), ADMIN);
     }
 
@@ -59,20 +63,24 @@ class AdminRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(delete(REST_URL + 1)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isNotFound())
+                .andExpect(hasInResponse("message"))
+                .andExpect(hasInResponse("details"))
                 .andDo(print());
     }
 
     @Test
     void testGetUnAuth() throws Exception {
         mockMvc.perform(get(REST_URL))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
     }
 
     @Test
     void testGetForbidden() throws Exception {
         mockMvc.perform(get(REST_URL)
                 .with(userHttpBasic(USER)))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isForbidden())
+                .andDo(print());
     }
 
     @Test
@@ -88,9 +96,26 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN))
                 .content(JsonUtil.writeValue(userTo)))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
+                .andDo(print());
 
         assertMatch(userService.get(USER_ID), updated);
+    }
+
+    @Test
+    void testUpdateNotFound() throws Exception {
+        User updated = new User(USER);
+        updated.setName("UpdatedName");
+        updated.setId(0);
+        UserAdminTo userTo = new UserAdminTo(updated.getId(), updated.getName(), updated.getEmail(), updated.getPassword(), updated.isEnabled(), updated.getRoles());
+        mockMvc.perform(put(REST_URL + 0)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(userTo)))
+                .andExpect(status().isNotFound())
+                .andExpect(hasInResponse("message"))
+                .andExpect(hasInResponse("details"))
+                .andDo(print());
     }
 
     @Test
@@ -99,6 +124,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(getUserMatcher(USER,ADMIN));
+                .andExpect(getUserMatcher(USER,ADMIN))
+                .andDo(print());
     }
 }
