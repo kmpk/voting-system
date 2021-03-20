@@ -1,6 +1,7 @@
-package com.github.kmpk.votingsystem.web;
+package com.github.kmpk.votingsystem;
 
 import com.github.kmpk.votingsystem.model.Menu;
+import com.github.kmpk.votingsystem.web.TestUtil;
 import org.assertj.core.api.Assertions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -24,6 +25,7 @@ public class MenuTestData {
     public static void assertMatch(Menu actual, Menu expected) {
         Assertions.assertThat(actual)
                 .usingRecursiveComparison()
+                .ignoringFields("restaurant","dishes")
                 .isEqualTo(expected);
     }
 

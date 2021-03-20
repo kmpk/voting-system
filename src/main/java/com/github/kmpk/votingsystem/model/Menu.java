@@ -25,7 +25,7 @@ public class Menu extends AbstractBaseEntity {
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private LocalDate date=LocalDate.now();
+    private LocalDate date = LocalDate.now();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
     @OrderBy("name DESC")

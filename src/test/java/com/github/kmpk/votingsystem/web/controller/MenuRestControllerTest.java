@@ -3,10 +3,10 @@ package com.github.kmpk.votingsystem.web.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
+import static com.github.kmpk.votingsystem.MenuTestData.*;
 import static com.github.kmpk.votingsystem.RestaurantTestData.REST_1_ID;
 import static com.github.kmpk.votingsystem.RestaurantTestData.REST_3_ID;
 import static com.github.kmpk.votingsystem.UserTestData.USER;
-import static com.github.kmpk.votingsystem.web.MenuTestData.*;
 import static com.github.kmpk.votingsystem.web.TestUtil.userHttpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
