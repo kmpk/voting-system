@@ -20,12 +20,12 @@ public class Menu extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+//    @NotNull
     private Restaurant restaurant;
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private LocalDate date;
+    private LocalDate date=LocalDate.now();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
     @OrderBy("name DESC")
@@ -38,30 +38,6 @@ public class Menu extends AbstractBaseEntity {
         super(id);
         this.restaurant = restaurant;
         this.date = date;
-        this.dishes = dishes;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Set<Dish> getDishes() {
-        return dishes;
-    }
-
-    public void setDishes(Set<Dish> dishes) {
         this.dishes = dishes;
     }
 

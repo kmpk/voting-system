@@ -3,6 +3,8 @@ package com.github.kmpk.votingsystem.web.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
+import static com.github.kmpk.votingsystem.RestaurantTestData.REST_1_ID;
+import static com.github.kmpk.votingsystem.RestaurantTestData.REST_3_ID;
 import static com.github.kmpk.votingsystem.UserTestData.USER;
 import static com.github.kmpk.votingsystem.web.MenuTestData.*;
 import static com.github.kmpk.votingsystem.web.TestUtil.userHttpBasic;
@@ -16,7 +18,7 @@ class MenuRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGetAll() throws Exception {
-        mockMvc.perform(get(REST_URL)
+        mockMvc.perform(get(REST_URL+"/menus/")
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -26,7 +28,7 @@ class MenuRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL + MENU_1_ID)
+        mockMvc.perform(get(REST_URL + REST_1_ID + "/menus/" + MENU_1_ID)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -36,7 +38,7 @@ class MenuRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testNotFound() throws Exception {
-        mockMvc.perform(get(REST_URL + 0)
+        mockMvc.perform(get(REST_URL + REST_3_ID + "/menus/" + MENU_1_ID)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isNotFound())
                 .andDo(print());
