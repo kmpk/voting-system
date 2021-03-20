@@ -24,6 +24,7 @@ public class RestaurantTestData {
     public static void assertMatch(Restaurant actual, Restaurant expected) {
         Assertions.assertThat(actual)
                 .usingRecursiveComparison()
+                .ignoringFields("menus")
                 .isEqualTo(expected);
     }
 
@@ -32,7 +33,10 @@ public class RestaurantTestData {
     }
 
     public static void assertMatch(Iterable<Restaurant> actual, Iterable<Restaurant> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("registered", "password").isEqualTo(expected);
+        assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("menus")
+                .isEqualTo(expected);
     }
 
     public static ResultMatcher getRestaurantMatcher(Restaurant expected) {

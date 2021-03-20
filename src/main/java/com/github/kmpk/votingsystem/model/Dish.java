@@ -1,5 +1,7 @@
 package com.github.kmpk.votingsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
@@ -8,6 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Table(name = "dishes")
 public class Dish extends AbstractNamedEntity {
 
@@ -16,7 +21,7 @@ public class Dish extends AbstractNamedEntity {
     @Column(name = "price", nullable = false)
     private Integer price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
