@@ -56,4 +56,9 @@ public class MenuRepositoryImpl implements MenuRepository {
         get(menu.getId(), restaurantId);
         repository.save(menu);
     }
+
+    @Override
+    public List<Menu> getAllByRestaurantId(int restaurantId) {
+        return repository.getAllFetchedByRestaurantId(restaurantId);
+    }
 }

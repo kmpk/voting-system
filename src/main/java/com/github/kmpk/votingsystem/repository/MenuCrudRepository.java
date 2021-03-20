@@ -19,11 +19,21 @@ public interface MenuCrudRepository extends JpaRepository<Menu, Integer> {
 
     List<Menu> findAllByDate(LocalDate date);
 
+    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:restaurantId")
+    List<Menu> findAllByRestaurant(@Param("restaurantId") int restaurantId);
+
     @Transactional//todo: fix n+1
     default List<Menu> getAllFetchedByDate(LocalDate date) {
         List<Menu> allByDate = findAllByDate(date);
         fetchData(allByDate);
         return allByDate;
+    }
+
+    @Transactional//todo: fix n+1
+    default List<Menu> getAllFetchedByRestaurantId(int restaurantId) {
+        List<Menu> allByRestaurant = findAllByRestaurant(restaurantId);
+        fetchData(allByRestaurant);
+        return allByRestaurant;
     }
 
     default void fetchData(List<Menu> menus) {

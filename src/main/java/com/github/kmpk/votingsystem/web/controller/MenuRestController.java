@@ -24,10 +24,10 @@ public class MenuRestController {
     @Autowired
     private MenuRepository repository;
 
-    @GetMapping(path = "/menus", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Menu> getAll() {
-        logger.info("get all menus");
-        return repository.getAll();
+    @GetMapping(path = "/{restaurantId}/menus", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Menu> getAllByRestaurant(@PathVariable("restaurantId") int restaurantId) {
+        logger.info("get all menus by restaurantId={}",restaurantId);
+        return repository.getAllByRestaurantId(restaurantId);
     }
 
     @GetMapping(path = "/{restaurantId}/menus/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

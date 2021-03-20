@@ -17,4 +17,6 @@ public interface MenuRepository {
     Menu create(Menu menu, int restaurantId);
 
     void update(Menu menu, int restaurantId);
+
+    List<Menu> getAllByRestaurantId(int restaurantId);
 }

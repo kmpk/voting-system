@@ -1,5 +1,6 @@
 package com.github.kmpk.votingsystem.web.controller;
 
+import com.github.kmpk.votingsystem.model.Menu;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
@@ -18,11 +19,11 @@ class MenuRestControllerTest extends AbstractControllerTest {
 
     @Test
     void testGetAll() throws Exception {
-        mockMvc.perform(get(REST_URL+"/menus/")
+        mockMvc.perform(get(REST_URL + REST_1_ID + "/menus")
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(getMenuMatcher(MENU_1, MENU_2, MENU_3))
+                .andExpect(getMenuMatcher(new Menu[]{MENU_1}))
                 .andDo(print());
     }
 
