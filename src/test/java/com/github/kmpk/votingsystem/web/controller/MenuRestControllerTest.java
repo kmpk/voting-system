@@ -42,6 +42,8 @@ class MenuRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(get(REST_URL + REST_3_ID + "/menus/" + MENU_1_ID)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isNotFound())
+                .andExpect(hasInResponse("message"))
+                .andExpect(hasInResponse("details"))
                 .andDo(print());
     }
 }
