@@ -30,15 +30,12 @@ INSERT INTO dishes (name, price, menu_id)
 VALUES ('Dish name 1', 10000, 100005),
        ('Dish name 2', 20000, 100005),
        ('Dish name 3', 30000, 100005),
-       ('Dish name 4', 40000, 100005),
-       ('Dish name 5', 50000, 100006),
-       ('Dish name 6', 60000, 100006),
-       ('Dish name 7', 70000, 100006),
-       ('Dish name 8', 80000, 100006),
-       ('Dish name 9', 90000, 100007),
-       ('Dish name 10', 100000, 100007),
-       ('Dish name 11', 110000, 100007),
-       ('Dish name 12', 120000, 100007);
+       ('Dish name 4', 60000, 100006),
+       ('Dish name 5', 70000, 100006),
+       ('Dish name 6', 80000, 100006),
+       ('Dish name 7', 100000, 100007),
+       ('Dish name 8', 110000, 100007),
+       ('Dish name 9', 120000, 100007);
 
 INSERT INTO votes (date_time, user_id, restaurant_id)
 VALUES ('2000-01-01 10:00:00', 100000, 100002),
