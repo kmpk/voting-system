@@ -2,7 +2,6 @@ package com.github.kmpk.votingsystem.web.controller;
 
 import com.github.kmpk.votingsystem.model.Dish;
 import com.github.kmpk.votingsystem.repository.DishRepository;
-import com.github.kmpk.votingsystem.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +26,12 @@ public class DishRestController {
     @GetMapping(path = "/{menuId}/dishes", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Dish> getAllByMenu(@PathVariable("menuId") int menuId) {
         logger.info("get all dishes of menu with id={}", menuId);
-        return repository.findAllByMenu_Id(menuId);
+        return repository.getAll(menuId);
     }
 
     @GetMapping(path = "/{menuId}/dishes/{dishId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Dish get(@PathVariable("dishId") int dishId, @PathVariable("menuId") int menuId) {
         logger.info("get dish with id={} with menuId={}", dishId, menuId);
-        return ValidationUtil.checkNotFoundWithId(repository
-                .findById(dishId)
-                .filter(d -> d.getMenu().getId() == menuId)
-                .orElse(null), dishId);
+        return repository.get(dishId,menuId);
     }
 }

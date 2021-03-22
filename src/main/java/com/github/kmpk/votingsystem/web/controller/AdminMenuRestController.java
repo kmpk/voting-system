@@ -23,14 +23,14 @@ public class AdminMenuRestController {
     static final String REST_URL = "/rest/admin/restaurants";
 
     @Autowired
-    MenuRepository repository;
+    private MenuRepository repository;
 
     @PostMapping(path = "/{restaurantId}/menus", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> create(@Validated @RequestBody Menu menu, @PathVariable("restaurantId") int restaurantId) {
         logger.info("create new menu with restaurantId={}", restaurantId);
         Menu created = repository.create(menu, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
+                .path(REST_URL + "/" + restaurantId + "/menus/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
