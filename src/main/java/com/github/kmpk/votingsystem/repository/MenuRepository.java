@@ -12,6 +12,8 @@ public interface MenuRepository {
 
     Menu get(int id, int restaurantId);
 
+    Menu get(int id);
+
     void delete(int id, int restaurantId);
 
     Menu create(Menu menu, int restaurantId);

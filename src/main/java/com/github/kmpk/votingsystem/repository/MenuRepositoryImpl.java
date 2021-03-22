@@ -39,6 +39,11 @@ public class MenuRepositoryImpl implements MenuRepository {
     }
 
     @Override
+    public Menu get(int id) {
+        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
+    }
+
+    @Override
     public void delete(int id, int restaurantId) {
         checkNotFoundWithId(repository.delete(id, restaurantId), id);
     }
