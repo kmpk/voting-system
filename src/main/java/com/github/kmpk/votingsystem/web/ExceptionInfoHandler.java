@@ -3,6 +3,7 @@ package com.github.kmpk.votingsystem.web;
 import com.github.kmpk.votingsystem.exception.EntityNotFoundException;
 import com.github.kmpk.votingsystem.exception.ExceptionInfo;
 import com.github.kmpk.votingsystem.exception.IllegalRequestDataException;
+import com.github.kmpk.votingsystem.exception.IllegalVoteChangeTime;
 import com.github.kmpk.votingsystem.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +70,14 @@ public class ExceptionInfoHandler {
         String constrainMessage = messageUtil.getConstrainMessage(message).orElseThrow(() -> new RuntimeException("Data error"));
         ExceptionInfo exceptionInfo = new ExceptionInfo(req.getRequestURL(), "Data conflict error", constrainMessage);
         logger.warn("Data conflict error: {}", exceptionInfo);
+        return exceptionInfo;
+    }
+
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    @ExceptionHandler(IllegalVoteChangeTime.class)
+    public ExceptionInfo illegalVoteChangeTime(HttpServletRequest req, Exception e) {
+        ExceptionInfo exceptionInfo = new ExceptionInfo(req.getRequestURL(), "Illegal vote change time", e.getMessage());
+        logger.warn("Illegal vote change time: {}", exceptionInfo);
         return exceptionInfo;
     }
 }

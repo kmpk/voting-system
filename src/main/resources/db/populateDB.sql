@@ -1,9 +1,15 @@
-DELETE FROM user_roles;
-DELETE FROM users;
-DELETE FROM restaurants;
-DELETE FROM menus;
-DELETE FROM dishes;
-DELETE FROM votes;
+DELETE
+FROM user_roles;
+DELETE
+FROM users;
+DELETE
+FROM restaurants;
+DELETE
+FROM menus;
+DELETE
+FROM dishes;
+DELETE
+FROM votes;
 
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
@@ -38,6 +44,8 @@ VALUES ('Dish name 1', 10000, 100005),
        ('Dish name 9', 120000, 100007);
 
 INSERT INTO votes (date_time, user_id, restaurant_id)
-VALUES ('2000-01-01 10:00:00', 100000, 100002),
-       ('2000-01-01 9:00:00', 100001, 100003);
+VALUES ('2000-01-01 08:00:00', 100000, 100002),
+       ('2000-01-01 10:00:00', 100000, 100003),
+       ('2000-01-01 10:30:00', 100000, 100004),
+       ('2000-01-01 9:00:00', 100001, 100002);
 
