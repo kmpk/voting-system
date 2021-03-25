@@ -99,7 +99,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     void testVoteChangeIllegalTime() throws Exception {
         service.setClock(Clock.fixed(LocalDate.now()
                 .atStartOfDay(ZoneId.systemDefault())
-                .plus(12, ChronoUnit.HOURS)
+                .plus(10, ChronoUnit.HOURS)
                 .toInstant(), ZoneId.systemDefault()));
 
         Vote expected = new Vote(null, USER, REST_1, null);
@@ -114,6 +114,11 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
         assertMatch(returned, expected);
         assertMatch(returned, repository.getOne(expected.getId()));
+
+        service.setClock(Clock.fixed(LocalDate.now()
+                .atStartOfDay(ZoneId.systemDefault())
+                .plus(12, ChronoUnit.HOURS)
+                .toInstant(), ZoneId.systemDefault()));
 
         mockMvc.perform(put(REST_URL + REST_1_ID)
                 .with(userHttpBasic(USER)))
